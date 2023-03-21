@@ -1,0 +1,638 @@
+<!DOCTYPE JSON>
+<html lang="en">
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap');
+
+*,
+*::before,
+*::after{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;
+    font-family: 'Jost', sans-serif;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+#myVideo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    min-width: 100vh; 
+    min-height: 100vh;
+    object-fit: cover;
+    z-index: -2;
+  }
+.main_div{
+    position: absolute;
+    z-index: -1;
+    width: 80vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.music_container{
+    width: 35rem;
+    
+    height: 55rem;
+    background-color: #ffffff;
+    border-radius: 2rem;
+    box-shadow: 0 1.2rem 3rem 0.5rem rgba(255, 255, 255,0.5);
+    padding: 3rem;
+    text-align: center;
+    
+}
+.music_container #title{
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    word-spacing: 0.5rem;
+    color: #171717;
+    margin: 2rem 0 0.5rem 0;
+    font-size: 2.5rem;
+    font-weight: 500;
+    text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+.music_container #artist{
+    color: #cccaca;
+    text-transform: capitalize;
+    letter-spacing: 0.1rem;
+    font-size: 2rem;
+    margin-bottom: 4rem;
+    font-weight: 300;
+}
+.img_container{
+   width: 25rem;
+   height: 25rem;
+   margin: auto;
+}
+img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 1.2rem 3rem 0.5rem rgba(0, 0, 0, 0.4);
+}
+.music_controls{
+    width: 20rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    margin-top: 2rem;
+}
+.music_controls .fas{
+    color: #111111;
+    font-size: 2rem;
+    cursor: pointer;
+    filter: drop-shadow(0 1.2rem 3rem 0.5rem rgba(0,0,0,0.4) );
+}
+.music_controls .main_button{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background-color: #111111;
+    color: #f6f6f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+}
+.music_controls .fas:hover{
+    color: grey;
+}
+.music_controls .fas_play:hover{
+    background-color: #f6f6f6;
+    color: #111111;
+    box-shadow: 0 1rem 2rem 0.2rem rgba(0,0,0,0.4);
+}
+
+.anime{
+    animation: rotatePlayer 5s linear infinite ;
+}
+@keyframes rotatePlayer {
+    from{ transform: rotate(0deg);}
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* progress style  */
+
+.progressbar_container{
+    width: 100%;
+    height: auto;
+    padding: 1rem 0;
+    margin-top: 1rem;
+}
+.progress_div{
+    width: 100%;
+    height: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.7),0 2px 4px rgba(0, 0, 0, 0.7),0 4px 8px rgba(0, 0, 0, 0.7),0 8px 16px rgba(0, 0, 0, 0.7),0 16px 32px rgba(0, 0, 0, 0.7),0 32px 64px rgba(0, 0, 0, 0.7);
+    border-radius: 4rem;
+    position: relative;
+    margin-top: 0.rrem;
+    transition: width in linear;
+    -moz-transition: width in linear;
+    -o-transition: width in linear;
+    -webkit-transition: width in linear;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+
+}
+.progress{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 4rem;
+    width: 0%;
+    height: 100%;
+    background-color: black;
+    margin-top: 0.rrem;
+    transition: width in linear;
+    -moz-transition: width in linear;
+    -o-transition: width in linear;
+    -webkit-transition: width in linear;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.progress_duration_meter{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+    font-size: bold;
+}
+/* Songs list css */
+
+.songslist{
+    margin:20px;
+    display: flex;
+    position: absolute;
+    z-index: 0;
+    color: white;
+
+}
+#ourlist{
+    padding: 5px;
+    border-radius: 40%;
+    cursor: pointer;
+}
+#ourlist:hover{
+    color: rgb(166, 81, 245);
+}
+ul {
+    display: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+  }
+  
+  li a {
+    display: block;
+    color: #000;
+    font-weight: bold;
+    padding: 8px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color on hover */
+  li a:hover {
+    background-color: #555;
+    color: black;
+  }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/3844/3844724.png" type="image/x-icon">
+    <title>Music app</title>
+</head>
+
+<body><video muted loop id="myVideo">
+        <source src="video/back.mp4" type="video/mp4">
+    </video>
+
+    </div>
+    <div class="songslist" id="songslist">
+        <div class="songs">
+            <h2 id="ourlist"><button id="ourlist">Songs list</button> </h2>
+
+            <ul id="vertical_nav">
+                <li><a id="song1" href="#Kesariya">Kesariya</a></li>
+                <li><a id="song2" href="#DevaDeva">Deva Deva</a></li>
+                <li><a id="song3" href="#DanceKaBhoot">Dance Ka Bhoot</a></li>
+                <li><a id="song4" href="#Rasiya">Rasiya</a></li>
+                <li><a id="song5" href="#Thumkeshwari">Thumkeshwari</a></li>
+                <li><a id="song6" href="#TeriyaDeedan">Teriya Deedan</a></li>
+                <li><a id="song7" href="#Manike">Manike</a></li>
+                <li><a id="song8" href="#HaaniyaVe">Haaniya Ve</a></li>
+                <li><a id="song9" href="#DilDeDiya">Dil De Diya</a></li>
+                <li><a id="song10" href="#Maarkhayegaa">Maarkhayegaa</a></li>
+            </ul>
+        </div>
+    <div class="main_div">
+        
+            <div class="music_container">
+                <h2 id="title">Kesariya</h2>
+                <h3 id="artist">Arijit Singh</h3>
+                <div class="img_container">
+                    <img src="https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg" alt="">
+                </div>
+                <audio src="music/Kesariya.mp3"></audio>
+                <div class="progressbar_container" id="progress_container">
+                    <div class="progress_duration_meter">
+                        <div id="current_time" style="color:black">0.00</div>
+                        <div id="duration" style="color:black">4.28</div>
+                    </div>
+                    <div class="progress_div" id="progress_div">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                </div>
+                <!-- controls -->
+                <div class="music_controls">
+                    <i class="fa-solid fa-backward fas" id="prew" title="Previous"></i>
+                    <i class="fa-solid fa-play fas_play main_button" id="play" title="Play"></i>
+                    <i class="fa-solid fas fa-forward" id="next" title="Next"></i>
+                </div>
+            </div>
+        </div>
+        <script src="js/music.js"></script>
+</body>
+<script type="text/javascript">const music = document.querySelector('audio');
+const img = document.querySelector('img');
+const play = document.getElementById('play');
+const title = document.getElementById('title');
+const artist = document.getElementById('artist');
+const prew = document.getElementById('prew');
+const next = document.getElementById('next');
+const myvideo = document.getElementById('myVideo');
+const progress=document.getElementById('progress');
+let sduration = document.getElementById('duration');
+let current_time= document.getElementById('current_time');
+const progress_div = document.getElementById('progress_div');
+const vertical_nav=document.getElementById('vertical_nav');
+const ourlist=document.getElementById('ourlist');
+
+const song1=document.getElementById('song1');
+const song2=document.getElementById('song2');
+const song3=document.getElementById('song3');
+const song4=document.getElementById('song4');
+const song5=document.getElementById('song5');
+const song6=document.getElementById('song6');
+const song7=document.getElementById('song7');
+const song8=document.getElementById('song8');
+const song9=document.getElementById('song9');
+const song10=document.getElementById('song10');
+
+console.log(song1);
+console.log(ourlist);
+songIndex = 0;
+const songs = [{
+    artist: "Arijit Singh",
+    id: "1",
+    name: "Kesariya",
+    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg",
+    title: "Kesariya",
+},
+{
+    id: "2",
+    name: "Deva Deva",
+    title: "Deva Deva",
+    artist: "Pritam, Arijit Singh",
+    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg"
+},
+{
+    artist: "Arijit Singh",
+    id: "3",
+    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg",
+    name: "Dance Ka Bhoot",
+    title: "Dance Ka Bhoot"
+},
+{
+    id: "4",
+    name: "Rasiya",
+    title: "Rasiya",
+    artist: "Shreya Ghoshal",
+    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2017/dragon/poster.jpg",
+
+},
+{
+    id: "5",
+    name: "Thumkeshwari",
+    title: "Thumkeshwari",
+    artist: "Sachin-Jigar",
+    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
+},
+{
+    id: "6",
+    name: "Teriya Deedan",
+    title: "Teriya Deedan",
+    artist: "Parmesh Verma",
+    image: "https://i.scdn.co/image/ab67616d0000b273fd79a0560e0ab840cce158a4"
+},
+{
+    id: "7",
+    name: "Manike",
+    title: "Manike",
+    artist: "Yohani, Jubin Nautiyal,",
+    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
+},
+{
+    id: "8",
+    name: "Haaniya Ve",
+    title: "Haaniya Ve",
+    artist: "Jubin Nautiyal,",
+    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
+},
+{
+    id: "9",
+    name: "Dil De Diya",
+    title: "Dil De Diya",
+    artist: "Rochak Kohlhi",
+    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
+},
+{
+    id: "10",
+    name: "Raataan Lambiyan",
+    title: "Raataan Lambiyan",
+    artist: "Asees Kaur Jubin Nautiyal",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
+},
+{
+    id: "11",
+    name: "Jai Shree Ram",
+    title: "Jai Shree Ram",
+    artist: "Vikram Montrose",
+    image: "https://cdn.bollywoodmdb.com/fit-in/movies/largethumb/2021/ram-setu/ram-setu-poster-4.jpg"
+},
+{
+    id: "12",
+    name: "Maarkhayegaa",
+    title: "Maarkhayegaa",
+    artist: "Farhad Bhiwandiwala",
+    image: "https://www.bollywoodhungama.com/wp-content/uploads/2022/01/Akshay-Kumar-starrer-Bachchan-Pandey-to-release-on-March-18-2022-new-posters-unveiled.jpg"
+},
+{
+    id: "13",
+    name: "Meri Jaan Meri Jaan",
+    title: "Meri Jaan",
+    artist: "B Praak",
+    image: "https://www.bollywoodhungama.com/wp-content/uploads/2022/01/Akshay-Kumar-starrer-Bachchan-Pandey-to-release-on-March-18-2022-new-posters-unveiled.jpg"
+},
+{
+    id: "14",
+    name: "Saare Bolo Bewafa",
+    title: "Saare Bolo Bewafa",
+    artist: "B Praak, Jaani",
+    image: "https://www.bollywoodhungama.com/wp-content/uploads/2022/01/Akshay-Kumar-starrer-Bachchan-Pandey-to-release-on-March-18-2022-new-posters-unveiled.jpg"
+},
+{
+    id: "15",
+    name: "Heer Raanjhana",
+    title: "Heer Raanjhana",
+    artist: "Arijit Singh",
+    image: "https://www.bollywoodhungama.com/wp-content/uploads/2022/01/Akshay-Kumar-starrer-Bachchan-Pandey-to-release-on-March-18-2022-new-posters-unveiled.jpg"
+},
+{
+    id: "16",
+    name: "Apna Bana Le",
+    title: "Apna Bana Le",
+    artist: "Arijit Singh",
+    image: "https://stat1.bollywoodhungama.in/wp-content/uploads/2022/10/Varun-Dhawan-turns-into-a-werewolf-in-first-ensemble-poster-of-Bhediya.jpg"
+},
+{
+    id: "17",
+    name: "Ranjha",
+    title: "Ranjha",
+    artist: "Jasleen Royal, B Praak",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
+},
+{
+    id: "18",
+    name: "Jaihind Ki Senaa",
+    title: "Jaihind Ki Senaa",
+    artist: "Vikram Montrose",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
+},
+{
+    id: "19",
+    name: "Mann Bharryaa 2.0",
+    title: "Mann Bharryaa 2.0",
+    artist: "B Praak",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
+},
+{
+    id: "20",
+    name: "Kabhii Tumhhe",
+    title: "Kabhii Tumhhe",
+    artist: "Darshan Raval",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAq_oU9csuAlwv2i5B3dp4M3vcIR_BkA8NEg&usqp=CAU"
+}
+
+]
+let isPlaying = false;
+const playMusic = () => {
+    music.play();
+    play.classList.replace('fa-play', 'fa-pause');
+    img.classList.add('anime');
+    myvideo.play();
+
+    isPlaying = true;
+}
+const pauseMusic = () => {
+    music.pause();
+    play.classList.replace('fa-pause', 'fa-play');
+    img.classList.remove('anime');
+    myvideo.pause();
+    isPlaying = false;
+}
+play.addEventListener('click', () => {
+    if (!isPlaying) {
+        playMusic();
+    }
+    else {
+        pauseMusic();
+    }
+});
+
+// change in data
+const loadSong = (songs) => {
+    title.textContent = songs.title;
+    artist.textContent = songs.artist;
+    
+    music.src = "music/" + songs.name + ".mp3";
+    img.src = songs.image;
+};
+
+//loadSong(songs[2]);
+
+const nextSong = () => {
+    songIndex = (songIndex + 1) % songs.length;
+    artist.style.color='grey';
+    loadSong(songs[songIndex]);
+    playMusic();
+}
+const prewSong = () => {
+    songIndex = (songIndex - 1 + songs.length) % songs.length;
+    artist.style.color='grey';
+    loadSong(songs[songIndex]);
+    playMusic();
+}
+// progree js 
+music.addEventListener('timeupdate',(event)=>{
+    //console.log(event);
+    const { currentTime , duration} =event.srcElement;
+    let progress_time= (currentTime/duration)*100;
+    progress.style.width=`${progress_time}%`;
+    // music duration update 
+    let mytime=Math.floor(duration/60);
+    let sec_duration = Math.floor(duration%60);
+    if(sec_duration<10){
+        sec_duration =`0${sec_duration}`
+    }
+    if(duration){
+        sduration.textContent=mytime+":"+sec_duration;
+    }
+    let ctime=Math.floor(currentTime/60);
+    let sec_time = Math.floor(currentTime%60);
+    if(sec_time<10){
+        sec_time =`0${sec_time}`
+    }
+    if(currentTime){
+        current_time.textContent=ctime+":"+sec_time;
+    }  
+});
+
+// progress on click 
+progress_div.addEventListener('click',(event)=>{
+    const {duration} =music;
+    let move_progress =(event.offsetX / event.srcElement.clientWidth)*duration;
+
+    music.currentTime= move_progress;
+})
+const showList=()=>{
+    if(vertical_nav.style.display=='none'){
+        vertical_nav.style.display="block";
+    }
+    else{
+        vertical_nav.style.display="none";
+    }
+}
+const plays1=()=>{
+   title.textContent=song1.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song1.textContent}` + ".mp3";
+    img.src ="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays2=()=>{
+   title.textContent=song2.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song2.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays3=()=>{
+   title.textContent=song3.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song3.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays4=()=>{
+   title.textContent=song4.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song4.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays5=()=>{
+   title.textContent=song5.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song5.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays6=()=>{
+   title.textContent=song6.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song6.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays7=()=>{
+   title.textContent=song7.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song7.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays8=()=>{
+   title.textContent=song8.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song8.textContent}` + ".mp3";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays9=()=>{
+   title.textContent=song9.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song9.textContent}` + ".mp3";
+    img.src ="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+const plays10=()=>{
+   title.textContent=song10.textContent;
+   artist.style.color='white';
+    music.src = "music/" + `${song10.textContent}` + ".mp3";
+    img.src ="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*";
+    songIndex = 0;
+    showList();
+    playMusic();
+}
+
+song1.addEventListener('click',plays1);
+song2.addEventListener('click',plays2);
+song3.addEventListener('click',plays3);
+song4.addEventListener('click',plays4);
+song5.addEventListener('click',plays5);
+song6.addEventListener('click',plays6);
+song7.addEventListener('click',plays7);
+song8.addEventListener('click',plays8);
+song9.addEventListener('click',plays9);
+song10.addEventListener('click',plays10);
+
+
+ourlist.addEventListener('click', showList);
+
+music.addEventListener('ended',nextSong);
+
+next.addEventListener('click', nextSong);
+
+prew.addEventListener('click', prewSong);</script>
+</html>
